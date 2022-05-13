@@ -103,7 +103,7 @@ store.subscribe(render)
 
 缺陷：每次state更新，都会重新render，大型应用中会造成不必要的`重复渲染`。
 
-### react-redux
+### 三、react-redux
 为了解决上面那个重复渲染问题，所以我们使用`react-redux`
 `React-Redux` 提供了`<Provider />`,使得 Redux store 都应用到你的应用程序
 
@@ -177,7 +177,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(ReactReduxTest)
 
 使用connect()前，需要先定义mapStateToProps这个函数来指定如何把当前的Redux store state映射到展示组件的props中。
 
-### redux 中间件
+### 四、redux 中间件
 
 利用redux中间件机制可以在实际action响应前执行其它额外的业务逻辑。
 1. `redux-logger` 处理日志记录的中间件
@@ -284,7 +284,7 @@ class ReactReduxTest extends Component {
 export default connect(mapStateToProps, mapDispatchToProps)(ReactReduxTest)
 ```
 
-### 合并 reducer
+### 五、合并 reducer
   使用 `combineReducers` 进行复合，实现状态的模块化
   `step1:` store.js
 ```javascript
