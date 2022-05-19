@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import store from './store'
+
 import {Button} from 'antd'
 import './index.css';
 export default class reduxTest extends Component {

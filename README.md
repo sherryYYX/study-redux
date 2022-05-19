@@ -2,31 +2,42 @@
 
 ### 一、概念介绍
     2015年，Redux 出现，将 Flux 与函数式编程结合一起，很短时间内就成为了最热门的前端架构。
- #### （一）什么场景适合使用
+#### （一）设计思想
+ （1）Web 应用是一个状态机，视图与状态是一 一对应的。
+  （2）所有的状态，保存在一个对象里面。
+ #### （二）什么场景适合使用
  从组件的角度来看：
  * 某个组件的状态，需要共享
  * 某个状态需要在任何地方都可以拿到
  * 一个组件需要改变全局状态
  * 一个组件需要改变另一个组件的状态
   
-#### （二）redux 中的角色
+#### （三）redux 中的角色
 
 1. store
     就是保存数据的地方，你可以把它看成一个容器。整个应用只能有一个 Store。
+    Redux 提供`createStore`这个函数，用来生成 Store
    (1) 提供 `getState()` 方法获取 state；
-   (2) 提供 `dispatch(action)` 方法更新 state；
+   (2) 提供 `dispatch(action)` 方法更新 state,是 View 发出 Action 的唯一方法；
    (3) 通过 `subscribe(listener)` 注册监听器;
    (4)通过 `subscribe(listener)` 返回的函数注销监听器。
 2. Reducer
     指定了应用状态的变化如何响应 `actions` 并发送到 store 的
     （1）Store 收到 Action 以后，必须给出一个新的 State，这样 View 才会发生变化。这种 State 的计算过程就叫做 Reducer。
     （2）Reducer 是一个函数，它接受 Action 和当前 State 作为参数，返回一个新的 State。
+     (3)createStore 接受 Reducer 作为参数，生成一个新的 Store。以后每当store.dispatch发送过来一个新的 Action，就会自动调用 Reducer，得到新的 State
 3. Action
    把数据从应用传到store的有效载荷
    (1) State 的变化，会导致 View 的变化。但是，用户接触不到 State，只能接触到 View。所以，State 的变化必须是 View 导致的。Action 就是 View 发出的通知，表示 State 应该要发生变化了。
    (2) Action 是一个对象。其中的type属性是必须的，表示 Action 的名称。
+   (3) 可以这样理解，Action 描述当前发生的事情。改变 State 的唯一办法，就是使用 Action。它会运送数据到 Store
 
 ![img](./src/assets/image/redux.png)
+流程
+`step1:` 用户发出 Action
+`step2:` Store 自动调用 Reducer，并且传入两个参数：当前 State 和收到的 Action。 Reducer 会返回新的 State 。
+`step3:` State 一旦有变化，Store 就会调用监听函数。
+`step3:` 可以通过store.getState()得到当前状态。如果使用的是 React，这时可以触发重新渲染 View。
 
 ### 二、redux 的使用
 `step1:` 创建store.js
@@ -95,6 +106,7 @@ let root= ReactDOM.createRoot(document.getElementById('root'))
 function render() {
  root.render(<ReduxTest />)
 }
+render()
 // 注册 订阅 监听 每次 state 更新时
 store.subscribe(render)
 ```
